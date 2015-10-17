@@ -25,7 +25,7 @@
     </deposit>
     <deposit customerNumber="1004">
         <depositType>ShortTerm</depositType>
-        <depositBalance>-12000000</depositBalance>
+        <depositBalance>12000000</depositBalance>
         <durationDay>220</durationDay>
     </deposit>
 

@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Created by ${Dotin} on ${4/25/2015}.
+ * This class is used to define deposit and its properties, calculate payedInterest and compare object by their
+ * payedInterest property.
  */
 public class Deposit implements Comparable<Deposit> {
     private String customerNumber;
@@ -20,6 +21,11 @@ public class Deposit implements Comparable<Deposit> {
         this.depositType = depositType;
     }
 
+    /**
+     * This method is used to calculate payedInterest of a deposit.
+     *
+     * @return BigDecimal calculated interest.
+     */
     public BigDecimal calculatePayedInterest() {
         payedInterest = depositBalance.multiply(new BigDecimal(depositType.getInterestRate() * durationInDays))
                 .divide(new BigDecimal(36500), 2, RoundingMode.HALF_UP);
@@ -34,6 +40,10 @@ public class Deposit implements Comparable<Deposit> {
         return payedInterest;
     }
 
+    /**
+     * @param deposit is a object of deposit for comparing with others and sorting the array of objects.
+     * @return int
+     */
     @Override
     public int compareTo(Deposit deposit) {
         return this.getPayedInterest().compareTo(deposit.getPayedInterest());

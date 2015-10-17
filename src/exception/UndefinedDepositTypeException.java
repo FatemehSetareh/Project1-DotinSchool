@@ -3,8 +3,8 @@ package exception;
 /**
  * Created by ${Dotin} on ${4/25/2015}.
  */
-public class UndefinedTypeException extends RuntimeException {
-    public UndefinedTypeException() {
+public class UndefinedDepositTypeException extends RuntimeException {
+    public UndefinedDepositTypeException() {
     }
 
     public void traceMyException(){

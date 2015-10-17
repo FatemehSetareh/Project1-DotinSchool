@@ -1,7 +1,9 @@
 package bean;
 
+import java.util.Collections;
+
 /**
- * Created by ${Dotin} on ${4/25/2015}.
+ * This class represent a type of deposit and extends as DepositType class.
  */
 public class Qarz extends DepositType {
     public Qarz() {

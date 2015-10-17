@@ -1,7 +1,7 @@
 package bean;
 
 /**
- * Created by ${Dotin} on ${4/25/2015}.
+ * This is an abstract class that represent deposit types.
  */
 public abstract class DepositType {
     protected double interestRate;
