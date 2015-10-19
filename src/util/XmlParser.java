@@ -27,7 +27,7 @@ public class XmlParser extends DefaultHandler {
 
     protected String customerNumber;
     protected String depositType;
-    protected Integer durationDay;
+    protected Integer durationInDays;
     protected BigDecimal depositBalance;
     protected String tmpValue = null;
 
@@ -64,7 +64,7 @@ public class XmlParser extends DefaultHandler {
             depositTypeFlag = true;
         } else if (qname.equalsIgnoreCase("depositBalance")) {
             depositBalanceFlag = true;
-        } else if (qname.equalsIgnoreCase("durationDay")) {
+        } else if (qname.equalsIgnoreCase("durationInDays")) {
             durationDayFlag = true;
         }
     }
@@ -95,7 +95,7 @@ public class XmlParser extends DefaultHandler {
             try {
                 if (depositType != null) {
                     DepositType depositTypeClass = (DepositType) Class.forName("bean." + depositType).newInstance();
-                    Deposit deposit = new Deposit(customerNumber, depositBalance, durationDay, depositTypeClass);
+                    Deposit deposit = new Deposit(customerNumber, depositBalance, durationInDays, depositTypeClass);
                     deposit.calculatePayedInterest();
                     preSortArray.add(deposit);
                 }
@@ -153,13 +153,13 @@ public class XmlParser extends DefaultHandler {
             depositBalanceFlag = false;
 
         } else if (durationDayFlag) {
-            durationDay = Integer.parseInt(tmpValue);
-            if (durationDay.toString().charAt(0) == '-') {
+            durationInDays = Integer.parseInt(tmpValue);
+            if (durationInDays <=0) {
                 try {
                     throw new UndefinedDurationInDaysException();
                 } catch (UndefinedDurationInDaysException undefinedDurationInDaysException) {
                     undefinedDurationInDaysException.traceMyException();
-                    durationDay = 0;
+                    durationInDays = 0;
                 }
             }
             durationDayFlag = false;
@@ -181,13 +181,24 @@ public class XmlParser extends DefaultHandler {
     public void endDocument() throws SAXException {
         super.endDocument();
 
-        for (int i = 0; i < preSortArray.size(); i++) {
-            for (int j = 0; j < preSortArray.size(); j++) {
-                Collections.sort(preSortArray);
-            }
+        Collections.sort(preSortArray);
+
+        RandomAccessFile output = null;
+        try {
+            writeInOutputFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
-
+    /**
+     * This method used to write the sorted array of deposits in output xml file with using
+     * RandomAccessFile.
+     *
+     * @throws IOException
+     */
+    public void writeInOutputFile() throws IOException {
+        RandomAccessFile output = new RandomAccessFile("output.xml", "rw");
         StringBuilder stringBuilder = new StringBuilder();
         for (Deposit deposit : preSortArray) {
             stringBuilder.append(deposit.getCustomerNumber()
@@ -195,26 +206,7 @@ public class XmlParser extends DefaultHandler {
                     + (deposit.getPayedInterest()).toString()
                     + "\n");
         }
-        RandomAccessFile output = null;
-        try {
-            output = new RandomAccessFile("output.xml", "rw");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            output.writeBytes(stringBuilder.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            output.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        {
-        }
+        output.writeBytes(stringBuilder.toString());
     }
 }
 

@@ -31,7 +31,7 @@ public class Deposit implements Comparable<Deposit> {
                 .divide(new BigDecimal(36500), 2, RoundingMode.HALF_UP);
         System.out.println("your balance is: ("
                 + depositBalance
-                + ") Rial, and your duration day is: ("
+                + ") Rial, and your duration in days is: ("
                 + durationInDays
                 + "), therefore your payed "
                 + "interest is: ("

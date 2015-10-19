@@ -3,36 +3,36 @@
     <deposit customerNumber="1000">
         <depositType>Qarz</depositType>
         <depositBalance>3000000</depositBalance>
-        <durationDay>120</durationDay>
+        <durationInDays>120</durationInDays>
     </deposit>
 
     <deposit customerNumber="1001">
-        <depositType>Qarz</depositType>
+        <depositType>ShortTerm</depositType>
         <depositBalance>2000000</depositBalance>
-        <durationDay>10</durationDay>
+        <durationInDays>10</durationInDays>
     </deposit>
 
     <deposit customerNumber="1002">
         <depositType>Qarz</depositType>
         <depositBalance>3500000</depositBalance>
-        <durationDay>300</durationDay>
+        <durationInDays>300</durationInDays>
     </deposit>
 
     <deposit customerNumber="1003">
         <depositType>LongTerm</depositType>
         <depositBalance>100000</depositBalance>
-        <durationDay>456</durationDay>
+        <durationInDays>456</durationInDays>
     </deposit>
     <deposit customerNumber="1004">
         <depositType>ShortTerm</depositType>
         <depositBalance>12000000</depositBalance>
-        <durationDay>220</durationDay>
+        <durationInDays>220</durationInDays>
     </deposit>
 
     <deposit customerNumber="1005">
         <depositType>LooooooooooooooooooooooooooongTerm</depositType>
         <depositBalance>3000000</depositBalance>
-        <durationDay>120</durationDay>
+        <durationInDays>120</durationInDays>
     </deposit>
 
 </Bank>

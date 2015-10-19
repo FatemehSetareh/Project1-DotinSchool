@@ -1,5 +1,6 @@
 package main;
 
+import bean.Deposit;
 import util.XmlParser;
 
 import javax.xml.parsers.SAXParser;
@@ -32,7 +33,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }
