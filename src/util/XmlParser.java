@@ -154,7 +154,7 @@ public class XmlParser extends DefaultHandler {
 
         } else if (durationDayFlag) {
             durationInDays = Integer.parseInt(tmpValue);
-            if (durationInDays <=0) {
+            if (durationInDays <= 0) {
                 try {
                     throw new UndefinedDurationInDaysException();
                 } catch (UndefinedDurationInDaysException undefinedDurationInDaysException) {
@@ -163,10 +163,7 @@ public class XmlParser extends DefaultHandler {
                 }
             }
             durationDayFlag = false;
-
         }
-
-
     }
 
     /**
