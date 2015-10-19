@@ -21,9 +21,9 @@ import java.util.Collections;
  */
 public class XmlParser extends DefaultHandler {
 
-    boolean bdepositType = false;
-    boolean bdepositBalance = false;
-    boolean bdurationDay = false;
+    boolean depositTypeFlag = false;
+    boolean depositBalanceFlag = false;
+    boolean durationDayFlag = false;
 
     protected String customerNumber;
     protected String depositType;
@@ -61,11 +61,11 @@ public class XmlParser extends DefaultHandler {
         if (qname.equalsIgnoreCase("deposit")) {
             customerNumber = attributes.getValue("customerNumber");
         } else if (qname.equalsIgnoreCase("depositType")) {
-            bdepositType = true;
+            depositTypeFlag = true;
         } else if (qname.equalsIgnoreCase("depositBalance")) {
-            bdepositBalance = true;
+            depositBalanceFlag = true;
         } else if (qname.equalsIgnoreCase("durationDay")) {
-            bdurationDay = true;
+            durationDayFlag = true;
         }
     }
 
@@ -97,7 +97,6 @@ public class XmlParser extends DefaultHandler {
                     DepositType depositTypeClass = (DepositType) Class.forName("bean." + depositType).newInstance();
                     Deposit deposit = new Deposit(customerNumber, depositBalance, durationDay, depositTypeClass);
                     deposit.calculatePayedInterest();
-                    //System.out.println(deposit.getDepositBalance());
                     preSortArray.add(deposit);
                 }
             } catch (ClassNotFoundException e) {
@@ -111,24 +110,25 @@ public class XmlParser extends DefaultHandler {
         }
 
     }
+
     /**
      * This method used to get XML properties as a string and initialize our variable depositType,
      * depositBalance, durationDay and check that this input information are defined in our boundary
      * by exceptions.
      *
-     * @param ch The characters.
-     * @param start The start position in the character array.
+     * @param ch     The characters.
+     * @param start  The start position in the character array.
      * @param length The number of characters to use from the
      *               character array.
-     * @exception org.xml.sax.SAXException Any SAX exception, possibly
-     *            wrapping another exception.
+     * @throws org.xml.sax.SAXException Any SAX exception, possibly
+     *                                  wrapping another exception.
      */
     @Override
     public void characters(char ch[],
                            int start, int length) throws SAXException {
         String tmpValue = new String(ch, start, length);
 
-        if (bdepositType) {
+        if (depositTypeFlag) {
             depositType = tmpValue;
             try {
                 if (!(depositType.equals("Qarz") || depositType.equals("ShortTerm") || depositType.equals("LongTerm"))) {
@@ -138,9 +138,9 @@ public class XmlParser extends DefaultHandler {
                 undefinedDepositTypeException.traceMyException();
                 depositType = null;
             }
-            bdepositType = false;
+            depositTypeFlag = false;
 
-        } else if (bdepositBalance) {
+        } else if (depositBalanceFlag) {
             depositBalance = new BigDecimal(tmpValue);
             try {
                 if (depositBalance.toString().charAt(0) == '-' || depositBalance.equals(new BigDecimal(0))) {
@@ -150,9 +150,9 @@ public class XmlParser extends DefaultHandler {
                 negativeDepositBalanceException.traceMyException();
                 depositBalance = new BigDecimal(0);
             }
-            bdepositBalance = false;
+            depositBalanceFlag = false;
 
-        } else if (bdurationDay) {
+        } else if (durationDayFlag) {
             durationDay = Integer.parseInt(tmpValue);
             if (durationDay.toString().charAt(0) == '-') {
                 try {
@@ -162,7 +162,7 @@ public class XmlParser extends DefaultHandler {
                     durationDay = 0;
                 }
             }
-            bdurationDay = false;
+            durationDayFlag = false;
 
         }
 
@@ -174,6 +174,7 @@ public class XmlParser extends DefaultHandler {
      * At this time we have an arrayList of deposit objects from the input XML.
      * Now we have to sort this arrayList and write "customerNumber#payedInterest" in output file
      * using by RandomAccessFile.
+     *
      * @throws SAXException
      */
     @Override

@@ -46,7 +46,8 @@ public class Deposit implements Comparable<Deposit> {
      */
     @Override
     public int compareTo(Deposit deposit) {
-        return this.getPayedInterest().compareTo(deposit.getPayedInterest());
+        //return this.getPayedInterest().compareTo(deposit.getPayedInterest());
+        return deposit.getPayedInterest().compareTo(this.getPayedInterest());
     }
 
 
